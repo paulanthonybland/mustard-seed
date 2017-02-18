@@ -1,0 +1,32 @@
+<h1>Mustard Seed Clients</h1>
+<h3>Clients:</h3>
+<div *ngIf="clients">
+  <table border=1 cellpadding="2">
+  <tr>
+    <td class="heading">Name</td>
+    <td class="heading">Date of Birth</td>
+    <td class="heading">Date of Referral</td>
+    <td class="heading">Stage of Progress</td>
+  </tr>
+  <tr *ngFor="let client of clients" [class.closed]="client.stageOfProgress === 'closed'" [class.open]="client.stageOfProgress === 'open'" [class.waiting]="client.stageOfProgress === 'waiting'" [hidden]="!(client.stageOfProgress === filter || filter === 'all')">
+    <td class="text">{{client.lastname}},&nbsp;{{client.firstname}}</td>
+    <td class="data">{{client.dob}}</td>
+    <td class="data">{{client.dateOfReferral}}</td>
+    <td class="text">{{client.stageOfProgress}}</td>
+  </tr>
+  </table>
+</div>
+<p>
+<div>
+  Filter by: 
+  <select (change)="filterList($event.target.value)">
+    <option *ngFor="let stage of stagesOfProgress" [value]="stage" [selected]="filter === stage" >{{stage}}</option>
+  </select>&nbsp;{{filter}}
+</div>
+<!--
+<p>New client:
+<p><label>First name: <input #newHeroFirstName /></label>
+<p><label>Last name: <input #newHeroLastName /></label>
+<button (click)="addHero(newHeroFirstName.value, newHeroLastName.value); newHeroFirstName.value=''; newHeroLastName.value=''">Add Client</button>
+-->
+<p class="error" *ngIf="errorMessage">Error message: {{errorMessage}}</p>

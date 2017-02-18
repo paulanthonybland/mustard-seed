@@ -1,0 +1,22 @@
+tr.waiting {
+  background-color: red;
+}
+tr.open {
+  background-color: yellow;
+}
+tr.closed {
+  background-color: lightgreen;
+}
+td.heading {
+  background-color: lightblue;
+}
+td.text {
+  text-align: left;
+}
+td.data {
+  text-align: right;
+}
+select {
+  height: 25px;
+  background-color: lightgrey;
+}

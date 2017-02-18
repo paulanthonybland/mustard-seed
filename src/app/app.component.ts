@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
 @Component({
   selector: 'my-app',
-  template: `<h1>Hello {{name}}</h1>`,
+  template: `<client-list></client-list>`,
 })
-export class AppComponent  { name = 'Angular'; }
+export class AppComponent  {  }
