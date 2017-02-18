@@ -1,3 +1,6 @@
+# Clone of QuickStart to provide a baseline for the Mustard Seed client management system
+This branch is the quickstart source before any changes have been made.
+
 # Angular QuickStart Source
 [![Build Status][travis-badge]][travis-badge-url]
 
