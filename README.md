@@ -1,3 +1,6 @@
+# v0.1 of the Mustard Seed Client Management System
+This version gives us a simple screen listing a filtering a set of mock clients, management in an in-memory angular DB.
+
 # Angular QuickStart Source
 [![Build Status][travis-badge]][travis-badge-url]
 
