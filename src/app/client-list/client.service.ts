@@ -7,10 +7,18 @@ import { Client } from './client';
 
 @Injectable()
 export class ClientService {
-  private clientsUrl = 'app/clients';  // URL to web API
-  constructor (private http: Http) {}
+  //private clientsUrl = 'app/clients';  // URL to web API
+  private clientsUrl = 'http://dadford.dev.bluearc.com:8080/mustard-seed/clients';  // URL to web API
+  constructor (private http: Http) {
+    console.info("constructor");
+  }
+  
   getClients (): Observable<Client[]> {
-    return this.http.get(this.clientsUrl)
+    console.info("getClients");
+    let getHeaders = new Headers();
+    getHeaders.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
+    let options = new RequestOptions({ headers: getHeaders, withCredentials: true });
+    return this.http.get(this.clientsUrl, options)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
@@ -18,16 +26,19 @@ export class ClientService {
     console.info("extractData");
     console.info("res: " + res.text());
     let body = res.json();
-    console.info("body:" + body);
-    console.info("Body back to json: " + JSON.stringify(body));
-    console.info("body.data: " + body.data);
-    return body.data || { };
+    return body["_embedded"] || { };
   }
   private handleError (error: Response | any) {
     console.error("handleError: " + error)
     // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
     if (error instanceof Response) {
+      console.error("Got an instance of Response")
+      console.error("OK? " + error.ok)
+      console.error("URL? %s",error.url)
+      console.error("status? %s", error.status)
+      console.error("statusText? %s", error.statusText)
+      console.error("Headers: %s",JSON.stringify(error.headers))
       const body = error.json() || '';
       const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;

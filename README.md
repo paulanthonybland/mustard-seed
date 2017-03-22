@@ -185,3 +185,61 @@ Shut it down manually with `Ctrl-C`.
 
 [travis-badge]: https://travis-ci.org/angular/quickstart.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/angular/quickstart
+
+## Notes
+
+#https://github.com/SoftInstigate/restheart-docker
+#https://softinstigate.atlassian.net/wiki/display/RH/API+tutorial
+
+# Start the DB
+docker run -d --name mongodb mongo:3.2
+
+# Start restheart
+docker run -d -p 8080:8080 --name restheart --link mongodb softinstigate/restheart:3.0.0
+
+#Create the DB:
+curl --user admin:changeit -X PUT 127.0.0.1:8080/mustard-seed
+
+#Create the clients collection
+curl --user admin:changeit -X PUT 127.0.0.1:8080/mustard-seed/clients
+
+# Create a client
+curl --user admin:changeit -H "Content-type: application/json" -X POST 127.0.0.1:8080/mustard-seed/clients --data @client.json 
+
+where:
+
+pbland@dadford:~/work/git/mustard-seed$ cat /home/pbland/work/docker/client-db/clients.json
+{
+  firstname: 'Paul',
+  lastname: "Bland",
+  dob: "1963-10-16",
+  dateOfReferral: "2014-08-22",
+  stageOfProgress: "waiting",
+},
+{
+  firstname: 'Francis',
+  lastname: "Bland",
+  dob: "1965-05-12",
+  dateOfReferral: "2012-03-06",
+  stageOfProgress: "open",
+}.
+{
+  firstname: 'Lucy',
+  lastname: "Bland",
+  dob: "2001-11-03",
+  dateOfReferral: "2016-11-03",
+  stageOfProgress: "closed",
+}
+pbland@dadford:~/work/git/mustard-seed$ 
+
+pbland@dadford:~/tmp$ cat client.json 
+{ 
+  firstname: 'Paul',
+  lastname: "Bland",
+  dob: "1963-10-16",
+  dateOfReferral: "2014-08-22",
+  stageOfProgress: "waiting",
+}
+pbland@dadford:~/tmp$ 
+
+  
