@@ -8,7 +8,7 @@ import { Client } from './client';
 @Injectable()
 export class ClientService {
   //private clientsUrl = 'app/clients';  // URL to web API
-  private clientsUrl = 'http://db:8080/mustard-seed/clients';  // URL to web API
+  private clientsUrl = 'http://mongodb:8080/mustard-seed/clients';  // URL to web API
   constructor (private http: Http) {
     console.info("constructor");
   }
