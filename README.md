@@ -1,3 +1,9 @@
+# Branch v0.3
+
+This branch represents the state of the app in which it can be run in a docker-compose stack with an API container and a DB container.
+
+See:
+
 # Angular QuickStart Source
 [![Build Status][travis-badge]][travis-badge-url]
 
