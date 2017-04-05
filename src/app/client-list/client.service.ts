@@ -1,6 +1,8 @@
-import { Injectable }              from '@angular/core';
-import { Http, Response, Headers, RequestOptions }          from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Inject, Injectable }                      from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable }                              from 'rxjs/Observable';
+import { DOCUMENT }                                from '@angular/platform-browser';
+
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Client } from './client';
@@ -8,9 +10,11 @@ import { Client } from './client';
 @Injectable()
 export class ClientService {
   //private clientsUrl = 'app/clients';  // URL to web API
-  private clientsUrl = 'http://api:8080/mustard-seed/clients';  // URL to web API
-  constructor (private http: Http) {
+  private clientsUrl = '';  // URL to web API
+  
+  constructor (@Inject(DOCUMENT) private document: any, private http: Http) {
     console.info("constructor");
+    this.clientsUrl = document.location.protocol + '//' + document.location.hostname + ':8080/mustard-seed/clients';
   }
   
   getClients (): Observable<Client[]> {
