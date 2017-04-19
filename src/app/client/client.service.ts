@@ -54,8 +54,10 @@ export class ClientService {
   }
 
   addClient (firstname: string, lastname: string): Observable<Client> {
+    console.info("ClientService::addClient");
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    headers.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
 
     return this.http.post(this.clientsUrl, { firstname, lastname }, options)
                     .map(this.extractData)

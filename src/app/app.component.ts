@@ -6,6 +6,11 @@ import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'my-app',
-  template: `<client-list></client-list>`,
+  template: `
+    <router-outlet></router-outlet>
+    <nav>
+      <a href="add-client">Add New Client</a>
+    </nav>
+  `
 })
 export class AppComponent  {  }

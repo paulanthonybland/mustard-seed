@@ -1,0 +1,7 @@
+<h1>Mustard Seed Clients</h1>
+<p>New client:
+<p><label>First name: <input #newClientFirstName /></label>
+<p><label>Last name: <input #newClientLastName /></label>
+<p><button (click)="addClient(newClientFirstName.value, newClientLastName.value); newClientFirstName.value=''; newClientLastName.value=''">Add Client</button>
+
+<p class="error" *ngIf="errorMessage">Error message: {{errorMessage}}</p>

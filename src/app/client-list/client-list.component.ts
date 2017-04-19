@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Client } from './client';
-import { stagesOfProgress } from './stage-of-progress';
-import { ClientService } from './client.service';
+import { Client } from '../client/client';
+import { stagesOfProgress } from '../client/stage-of-progress';
+import { ClientService } from '../client/client.service';
 
 @Component({
   selector: 'client-list',
