@@ -59,7 +59,9 @@ export class ClientService {
     headers.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
     let options = new RequestOptions({ headers: headers, withCredentials: true });
 
-    return this.http.post(this.clientsUrl, { firstname, lastname }, options)
+    let registrationDate: string = new Date().toISOString().substr(0, 10);
+    let data = new Client(firstname, lastname, "", registrationDate, "waiting");
+    return this.http.post(this.clientsUrl, data, options)
                     .map(this.extractData)
                     .catch(this.handleError);
   }

@@ -1,8 +1,8 @@
-export class Client {
-  id: number;
-  firstname: string;
-  lastname: string;
-  dob: string;
-  dateOfReferral: string;
-  stageOfProgress: string;
+export class Client {  
+  constructor(
+    public firstname: string,
+    public lastname: string,
+    public dob: string,
+    public dateOfReferral: string,
+    public stageOfProgress: string) {}
 }
