@@ -8,9 +8,6 @@ import 'rxjs/add/operator/map';
   selector: 'my-app',
   template: `
     <router-outlet></router-outlet>
-    <nav>
-      <a href="add-client">Add New Client</a>
-    </nav>
   `
 })
 export class AppComponent  {  }

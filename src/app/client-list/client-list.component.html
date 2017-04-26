@@ -1,5 +1,13 @@
 <h1>Mustard Seed Clients</h1>
-<h3>Clients:</h3>
+<div>
+  Filter by: 
+  <select (change)="filterList($event.target.value)">
+    <option *ngFor="let stage of stagesOfProgress" [value]="stage" [selected]="filter === stage" >{{stage}}</option>
+  </select>&nbsp;{{filter}}
+</div>
+<p>
+      <button routerLink="/add-client">Add New Client</button>
+<p>
 <div *ngIf="clients">
   <table border=1 cellpadding="2">
   <tr>
@@ -17,12 +25,6 @@
   </table>
 </div>
 <p>
-<div>
-  Filter by: 
-  <select (change)="filterList($event.target.value)">
-    <option *ngFor="let stage of stagesOfProgress" [value]="stage" [selected]="filter === stage" >{{stage}}</option>
-  </select>&nbsp;{{filter}}
-</div>
 <!--
 <p>New client:
 <p><label>First name: <input #newHeroFirstName /></label>
