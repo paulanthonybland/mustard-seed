@@ -8,6 +8,7 @@ import { AppComponent }            from './app.component';
 import { AppRoutingModule }        from './app-routing.module';
 import { PageNotFoundComponent }   from './page-not-found.component';
 import { ClientAddComponent }      from './client-add/client-add.component';
+import { ClientDetailComponent }  from './client-detail/client-detail.component';
 import { ClientListComponent }     from './client-list/client-list.component';
 import { ClientService }           from './client/client.service';
 
@@ -23,6 +24,7 @@ import { ClientService }           from './client/client.service';
   declarations: [ 
     AppComponent, 
     ClientAddComponent,
+    ClientDetailComponent,
     ClientListComponent,
     PageNotFoundComponent
   ],

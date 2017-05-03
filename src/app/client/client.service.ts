@@ -10,11 +10,11 @@ import { Client } from './client';
 @Injectable()
 export class ClientService {
   //private clientsUrl = 'app/clients';  // URL to web API
-  private clientsUrl = '';  // URL to web API
+  private baseUrl = '';  // URL to web API
   
   constructor (@Inject(DOCUMENT) private document: any, private http: Http) {
     console.info("constructor");
-    this.clientsUrl = document.location.protocol + '//' + document.location.hostname + ':8080/mustard-seed/clients';
+    this.baseUrl = document.location.protocol + '//' + document.location.hostname + ':8080/mustard-seed';
   }
   
   getClients (): Observable<Client[]> {
@@ -22,11 +22,12 @@ export class ClientService {
     let getHeaders = new Headers();
     getHeaders.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
     let options = new RequestOptions({ headers: getHeaders, withCredentials: true });
-    return this.http.get(this.clientsUrl, options)
-                    .map(this.extractData)
+    let clientsUrl = this.baseUrl + '/clients';
+    return this.http.get(clientsUrl, options)
+                    .map(this.extractClients)
                     .catch(this.handleError);
   }
-  private extractData(res: Response) {
+  private extractClients(res: Response) {
     console.info("extractData");
     console.info("res: " + res.text());
     let body = res.json();
@@ -60,9 +61,27 @@ export class ClientService {
     let options = new RequestOptions({ headers: headers, withCredentials: true });
 
     let registrationDate: string = new Date().toISOString().substr(0, 10);
-    let data = new Client(firstname, lastname, "", registrationDate, "waiting");
-    return this.http.post(this.clientsUrl, data, options)
+    let data = new Client("", firstname, lastname, "", registrationDate, "waiting");
+    let clientsUrl = this.baseUrl + '/clients';
+    return this.http.post(clientsUrl, data, options)
                     .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  
+  private extractClient(res: Response) {
+    console.info("extractData");
+    console.info("res: " + res.text());
+    let body = res.json();
+    return body;
+  }
+  getClient (id: String): Observable<Client> {
+    console.info("ClientService::getClient");
+    let getHeaders = new Headers();
+    getHeaders.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
+    let options = new RequestOptions({ headers: getHeaders, withCredentials: true });
+    let clientUrl = this.baseUrl + '/clients/' + id;
+    return this.http.get(clientUrl, options)
+                    .map(this.extractClient)
                     .catch(this.handleError);
   }
 

@@ -1,0 +1,21 @@
+<div *ngIf="client">
+  <h1>Mustard Seed: {{client.firstname}} {{client.lastname}}  details</h1>
+  <table border=1 cellpadding="2">
+  <tr>
+    <td class="heading">_id</td>
+    <td class="heading">Name</td>
+    <td class="heading">Date of Birth</td>
+    <td class="heading">Date of Referral</td>
+    <td class="heading">Stage of Progress</td>
+  </tr>
+  <tr >
+    <td class="data">{{client._id.$oid}}</td>
+    <td class="text">{{client.lastname}},&nbsp;{{client.firstname}}</td>
+    <td class="data">{{client.dob}}</td>
+    <td class="data">{{client.dateOfReferral}}</td>
+    <td class="text">{{client.stageOfProgress}}</td>
+  </tr>
+  </table>
+</div>
+<p>
+<p class="error" *ngIf="errorMessage">Error message: {{errorMessage}}</p>

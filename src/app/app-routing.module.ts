@@ -3,12 +3,17 @@ import { RouterModule, Routes }    from '@angular/router';
 
 import { PageNotFoundComponent }   from './page-not-found.component';
 import { ClientAddComponent }      from './client-add/client-add.component';
+import { ClientDetailComponent }   from './client-detail/client-detail.component';
 import { ClientListComponent }     from './client-list/client-list.component';
 
 const appRoutes: Routes = [
   {
     path: 'clients',
     component: ClientListComponent
+  },
+  {
+    path: 'client/:id',
+    component: ClientDetailComponent
   },
   {
     path: 'add-client',

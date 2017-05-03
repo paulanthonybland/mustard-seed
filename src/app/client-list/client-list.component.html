@@ -11,12 +11,14 @@
 <div *ngIf="clients">
   <table border=1 cellpadding="2">
   <tr>
+    <td class="heading">_id</td>
     <td class="heading">Name</td>
     <td class="heading">Date of Birth</td>
     <td class="heading">Date of Referral</td>
     <td class="heading">Stage of Progress</td>
   </tr>
-  <tr *ngFor="let client of clients" [class.closed]="client.stageOfProgress === 'closed'" [class.open]="client.stageOfProgress === 'open'" [class.waiting]="client.stageOfProgress === 'waiting'" [hidden]="!(client.stageOfProgress === filter || filter === 'all')">
+  <tr *ngFor="let client of clients" [class.closed]="client.stageOfProgress === 'closed'" [class.open]="client.stageOfProgress === 'open'" [class.waiting]="client.stageOfProgress === 'waiting'" [hidden]="!(client.stageOfProgress === filter || filter === 'all')" (click)="onSelect(client._id.$oid)">
+    <td class="data">{{client._id.$oid}}</td>
     <td class="text">{{client.lastname}},&nbsp;{{client.firstname}}</td>
     <td class="data">{{client.dob}}</td>
     <td class="data">{{client.dateOfReferral}}</td>
