@@ -64,7 +64,7 @@ export class ClientService {
     let data = new Client("", firstname, lastname, "", registrationDate, "waiting");
     let clientsUrl = this.baseUrl + '/clients';
     return this.http.post(clientsUrl, data, options)
-                    .map(this.extractData)
+                    .map(this.extractClients)
                     .catch(this.handleError);
   }
   
