@@ -25,11 +25,10 @@ export class ClientListComponent implements OnInit {
   ) {}
   
   ngOnInit() { this.getClients(); }
+  
   getClients() {
     this.clientService.getClients()
-                     .subscribe(
-                       clients => this.clients = clients,
-                       error =>  this.errorMessage = <any>error);
+                      .then(clients => this.clients = clients);
   } 
   
   filterList (stage: string) {

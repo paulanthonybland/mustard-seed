@@ -5,6 +5,8 @@ import { DOCUMENT }                                from '@angular/platform-brows
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+
 import { Client } from './client';
 
 @Injectable()
@@ -17,18 +19,19 @@ export class ClientService {
     this.baseUrl = document.location.protocol + '//' + document.location.hostname + ':8080/mustard-seed';
   }
   
-  getClients (): Observable<Client[]> {
+  getClients (): Promise<Client[]> {
     console.info("getClients");
     let getHeaders = new Headers();
     getHeaders.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
     let options = new RequestOptions({ headers: getHeaders, withCredentials: true });
     let clientsUrl = this.baseUrl + '/clients';
     return this.http.get(clientsUrl, options)
-                    .map(this.extractClients)
+                    .toPromise()
+                    .then(response => response.json()["_embedded"] as Client[])
                     .catch(this.handleError);
   }
   private extractClients(res: Response) {
-    console.info("extractData");
+    console.info("extractClients");
     console.info("res: " + res.text());
     let body = res.json();
     return body["_embedded"] || { };
@@ -69,19 +72,20 @@ export class ClientService {
   }
   
   private extractClient(res: Response) {
-    console.info("extractData");
+    console.info("extractClient");
     console.info("res: " + res.text());
     let body = res.json();
     return body;
   }
-  getClient (id: String): Observable<Client> {
+  getClient (id: String): Promise<Client> {
     console.info("ClientService::getClient");
     let getHeaders = new Headers();
     getHeaders.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
     let options = new RequestOptions({ headers: getHeaders, withCredentials: true });
     let clientUrl = this.baseUrl + '/clients/' + id;
     return this.http.get(clientUrl, options)
-                    .map(this.extractClient)
+                    .toPromise()
+                    .then(response => response.json() as Client)
                     .catch(this.handleError);
   }
 
