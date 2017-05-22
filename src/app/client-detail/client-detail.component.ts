@@ -24,7 +24,7 @@ export class ClientDetailComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private service: ClientService
+    private clientService: ClientService
   ) {
     console.info("ClientDetailComponent::constructor");
     this.createForm();
@@ -39,5 +39,22 @@ export class ClientDetailComponent implements OnInit {
       dateOfReferral: ['', Validators.required ],
       stageOfProgress: ''
     });
-  }   
+  } 
+  
+  ngOnInit() {
+    console.info("ngOnInit");
+    let id = this.route.snapshot.params['id'];
+    console.info("id is " + id);
+    this.clientService.getClient(id)
+      .then(
+        client => this.clientForm.setValue({
+          firstname: client.firstname,
+          lastname: client.lastname,
+          dob: client.dob,
+          dateOfReferral: client.dateOfReferral,
+          stageOfProgress: client.stageOfProgress,
+        }),
+        err => console.error("Got an error: " + err));      
+      
+  } 
 }
