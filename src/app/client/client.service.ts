@@ -78,7 +78,7 @@ export class ClientService {
     return body;
   }
   getClient (id: String): Promise<Client> {
-    console.info("ClientService::getClient");
+    console.info("ClientService::getClient(" + id + ")");
     let getHeaders = new Headers();
     getHeaders.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
     let options = new RequestOptions({ headers: getHeaders, withCredentials: true });
