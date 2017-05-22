@@ -46,15 +46,16 @@ export class ClientDetailComponent implements OnInit {
     let id = this.route.snapshot.params['id'];
     console.info("id is " + id);
     this.clientService.getClient(id)
-      .then(
-        client => this.clientForm.setValue({
+      .then(client => {
+        this.clientForm.setValue({
           firstname: client.firstname,
           lastname: client.lastname,
           dob: client.dob,
           dateOfReferral: client.dateOfReferral,
           stageOfProgress: client.stageOfProgress,
-        }),
-        err => console.error("Got an error: " + err));      
-      
+        });
+        this.client = client;
+      },
+      err => console.error("Got an error: " + err));
   } 
 }
