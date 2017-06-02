@@ -18,6 +18,7 @@ export class ClientDetailComponent implements OnInit {
   clientForm:FormGroup;
   
   stagesOfProgress = stagesOfProgress;
+  id: string;
   client: Client;
   
   constructor (
@@ -26,7 +27,6 @@ export class ClientDetailComponent implements OnInit {
     private router: Router,
     private clientService: ClientService
   ) {
-    console.info("ClientDetailComponent::constructor");
     this.createForm();
     stagesOfProgress.splice(0, 1);
   }  
@@ -41,12 +41,12 @@ export class ClientDetailComponent implements OnInit {
     });
   } 
   
-  ngOnInit() {
-    console.info("ngOnInit");
-    let id = this.route.snapshot.params['id'];
-    console.info("id is " + id);
-    this.clientService.getClient(id)
+  populateClientForm() {
+    this.clientService.getClient(this.id)
       .then(client => {
+        if (!client.dob) {
+          client.dob = "1970-01-01";
+        }
         this.clientForm.setValue({
           firstname: client.firstname,
           lastname: client.lastname,
@@ -57,5 +57,35 @@ export class ClientDetailComponent implements OnInit {
         this.client = client;
       },
       err => console.error("Got an error: " + err));
+  }
+  
+  ngOnInit() {  
+    this.id = this.route.snapshot.params['id'];
+    this.populateClientForm();
   } 
+  
+  prepareSaveClient(): Client {
+    const formModel = this.clientForm.value;
+    
+    const saveClient: Client = {
+      _id: this.id,
+      firstname: formModel.firstname as string,
+      lastname: formModel.lastname as string,
+      dob: formModel.dob as string,
+      dateOfReferral: formModel.dateOfReferral as string,
+      stageOfProgress: formModel.stageOfProgress as string,
+    }    
+    
+    return saveClient;
+  }
+  
+  onSubmit() {
+    this.client = this.prepareSaveClient();
+    this.clientService.updateClient(this.client).subscribe(/* error handling */);
+    this.populateClientForm();
+  }
+  
+  revert() {
+    this.populateClientForm();
+  }
 }

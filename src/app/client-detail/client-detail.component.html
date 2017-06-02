@@ -1,5 +1,7 @@
   <h1>Mustard Seed client details</h1>
   <form [formGroup]="clientForm" novalidate>
+    <button type="submit" [disabled]="clientForm.pristine">Save</button> &nbsp;
+    <button type="reset" (click)="revert()" [disabled]="clientForm.pristine" >Revert</button>
     <table>
       <tr>
         <td>

@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
 import { Client } from './client';
+import { ClientAdd } from './client-add';
 
 @Injectable()
 export class ClientService {
@@ -15,7 +16,6 @@ export class ClientService {
   private baseUrl = '';  // URL to web API
   
   constructor (@Inject(DOCUMENT) private document: any, private http: Http) {
-    console.info("constructor");
     this.baseUrl = document.location.protocol + '//' + document.location.hostname + ':8080/mustard-seed';
   }
   
@@ -63,20 +63,26 @@ export class ClientService {
     headers.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
     let options = new RequestOptions({ headers: headers, withCredentials: true });
 
-    let registrationDate: string = new Date().toISOString().substr(0, 10);
-    let data = new Client("", firstname, lastname, "", registrationDate, "waiting");
+    let todayDate: string = new Date().toISOString().substr(0, 10);
+    let data = new ClientAdd(firstname, lastname, todayDate, todayDate, "waiting");
     let clientsUrl = this.baseUrl + '/clients';
     return this.http.post(clientsUrl, data, options)
                     .map(this.extractClients)
                     .catch(this.handleError);
   }
-  
-  private extractClient(res: Response) {
-    console.info("extractClient");
-    console.info("res: " + res.text());
-    let body = res.json();
-    return body;
+
+  updateClient (client: Client): Observable<Client> {
+    console.info("ClientService::updateClient");
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+
+    let clientsUrl = this.baseUrl + '/clients';
+    return this.http.put(clientsUrl, client, options)
+                    .map(this.extractClients)
+                    .catch(this.handleError);
   }
+  
   getClient (id: String): Promise<Client> {
     console.info("ClientService::getClient(" + id + ")");
     let getHeaders = new Headers();
