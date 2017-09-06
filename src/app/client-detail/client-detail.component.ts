@@ -41,27 +41,27 @@ export class ClientDetailComponent implements OnInit {
     });
   } 
   
-  populateClientForm() {
-    this.clientService.getClient(this.id)
-      .then(client => {
-        if (!client.dob) {
-          client.dob = "1970-01-01";
-        }
-        this.clientForm.setValue({
-          firstname: client.firstname,
-          lastname: client.lastname,
-          dob: client.dob,
-          dateOfReferral: client.dateOfReferral,
-          stageOfProgress: client.stageOfProgress,
-        });
-        this.client = client;
-      },
-      err => console.error("Got an error: " + err));
+  populateClientForm(client: Client) {
+    if (!client.dob) {
+      client.dob = "1970-01-01";
+    }
+    this.clientForm.setValue({
+      firstname: client.firstname,
+      lastname: client.lastname,
+      dob: client.dob,
+      dateOfReferral: client.dateOfReferral,
+      stageOfProgress: client.stageOfProgress,
+    });
+    this.client = client;
   }
   
   ngOnInit() {  
     this.id = this.route.snapshot.params['id'];
-    this.populateClientForm();
+    this.clientService.getClient(this.id)
+      .then(client => {
+        this.populateClientForm(client);
+      },
+      err => console.error("Got an error: " + err));    
   } 
   
   prepareSaveClient(): Client {
@@ -80,12 +80,17 @@ export class ClientDetailComponent implements OnInit {
   }
   
   onSubmit() {
+    console.log("ClientDetailComponent::onSubmit");
     this.client = this.prepareSaveClient();
-    this.clientService.updateClient(this.client).subscribe(/* error handling */);
-    this.populateClientForm();
+    this.clientService.updateClient(this.client)
+      .then(client => {
+        console.log("updateClient response: " + JSON.stringify(client));
+        this.populateClientForm(client);
+      },
+      err => console.error("onSubmit::Got an error: " + err));
   }
   
   revert() {
-    this.populateClientForm();
+    this.populateClientForm(this.client);
   }
 }
