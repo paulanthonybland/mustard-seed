@@ -51,9 +51,10 @@ export class ClientService {
       const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
+      console.error("Got something other than Response");
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error(errMsg);
+    console.error("Prepared error message: " + errMsg);
     return Observable.throw(errMsg);
   }
 
@@ -71,15 +72,19 @@ export class ClientService {
                     .catch(this.handleError);
   }
 
-  updateClient (client: Client): Observable<Client> {
-    console.info("ClientService::updateClient");
+  updateClient (client: Client): Promise<Client> {
+    console.info("ClientService::updateClient (" + JSON.stringify(client) + ")");
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', 'Basic YWRtaW46Y2hhbmdlaXQ=');
     let options = new RequestOptions({ headers: headers, withCredentials: true });
 
     let clientsUrl = this.baseUrl + '/clients';
     return this.http.put(clientsUrl, client, options)
-                    .map(this.extractClients)
+                    .toPromise()
+                    .then(response => {
+                      console.log("Trying to parse response: " + response.json());
+                      response.json() as Client;
+                    })
                     .catch(this.handleError);
   }
   
